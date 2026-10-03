@@ -1,0 +1,30 @@
+{
+  "name": "QMA Diagnostic — Bourses d'excellence Québec Métiers d'Avenir",
+  "short_name": "QMA Diagnostic",
+  "description": "Vérifiez votre éligibilité et constituez votre dossier pour la bourse d'excellence en formation professionnelle au Québec (2026-2027).",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0E3A53",
+  "theme_color": "#0E3A53",
+  "orientation": "portrait",
+  "lang": "fr",
+  "icons": [
+    {
+      "src": "./icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "./icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "./icon-maskable.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

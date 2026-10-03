@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0E3A53">
+<meta name="description" content="Diagnostic d'éligibilité et constitution de dossier — Bourses d'excellence Québec Métiers d'Avenir">
+<title>QMA · Diagnostic & Dossier — Bourses d'excellence</title>
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%230E3A53'/><text x='50' y='68' font-size='50' text-anchor='middle' fill='white' font-family='Arial'>Q</text></svg>">
+<style>
+:root{
+  --bleu:#0E3A53; --bleu2:#16597f; --accent:#F5A623; --vert:#1E9E6A; --rouge:#D64545;
+  --gris:#5b6b76; --fond:#F4F7FA; --carte:#ffffff; --bord:#e2e8ee;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{font-size:16px}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  background:var(--fond);color:#1c2833;line-height:1.55;min-height:100vh}
+.wrap{max-width:640px;margin:0 auto;padding:0 16px 90px}
+
+/* Header */
+header{background:linear-gradient(135deg,var(--bleu) 0%,var(--bleu2) 100%);color:#fff;
+  padding:26px 18px 70px;position:relative;border-radius:0 0 28px 28px}
+header .logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:1.15rem;letter-spacing:.3px}
+header .logo .badge{background:var(--accent);color:var(--bleu);border-radius:10px;padding:4px 10px;font-size:.8rem;font-weight:900}
+header p{opacity:.85;font-size:.85rem;margin-top:6px}
+.countdown{margin-top:16px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);
+  border-radius:14px;padding:12px 14px;font-size:.85rem}
+.countdown b{font-size:1.25rem;color:var(--accent)}
+.countdown .lbl{display:block;font-size:.72rem;opacity:.8;text-transform:uppercase;letter-spacing:1px}
+
+/* Steps bar */
+.steps{display:flex;gap:6px;margin:-46px 16px 18px;position:relative;z-index:2;max-width:608px;margin-left:auto;margin-right:auto;padding:0 16px}
+.steps .dot{flex:1;height:6px;border-radius:6px;background:#d7e0e8;transition:.4s}
+.steps .dot.on{background:var(--accent)}
+
+h2.sec{font-size:1.05rem;color:var(--bleu);margin:22px 0 4px;display:flex;align-items:center;gap:8px}
+h2.sec .n{background:var(--bleu);color:#fff;width:26px;height:26px;border-radius:50%;
+  display:inline-flex;align-items:center;justify-content:center;font-size:.8rem;flex-shrink:0}
+p.hint{font-size:.82rem;color:var(--gris);margin-bottom:14px}
+
+.card{background:var(--carte);border:1px solid var(--bord);border-radius:16px;padding:18px;
+  margin-bottom:14px;box-shadow:0 2px 8px rgba(14,58,83,.05)}
+.card h3{font-size:.95rem;margin-bottom:8px;color:#16324a}
+
+/* Questions */
+.q{margin-bottom:16px}
+.q .qt{font-size:.9rem;font-weight:600;margin-bottom:8px}
+.q .qt small{display:block;font-weight:400;color:var(--gris);font-size:.78rem;margin-top:2px}
+.choix{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.choix button{padding:12px 8px;border:2px solid var(--bord);border-radius:12px;background:#fff;
+  font-size:.88rem;font-weight:600;color:#33424e;cursor:pointer;transition:.15s}
+.choix button.sel-oui{border-color:var(--vert);background:#eafaf3;color:var(--vert)}
+.choix button.sel-non{border-color:var(--rouge);background:#fdeeee;color:var(--rouge)}
+.btn{display:block;width:100%;padding:15px;border:none;border-radius:14px;font-size:1rem;
+  font-weight:700;cursor:pointer;transition:.15s}
+.btn-primaire{background:var(--accent);color:var(--bleu);box-shadow:0 4px 14px rgba(245,166,35,.35)}
+.btn-primaire:active{transform:scale(.98)}
+.btn-secondaire{background:#fff;color:var(--bleu);border:2px solid var(--bord);margin-top:10px}
+.btn-bleu{background:var(--bleu);color:#fff}
+
+/* Résultat éligibilité */
+.verdict{border-radius:16px;padding:20px;text-align:center;margin-bottom:16px}
+.verdict.ok{background:#eafaf3;border:2px solid var(--vert)}
+.verdict.ko{background:#fdeeee;border:2px solid var(--rouge)}
+.verdict .emoji{font-size:2.6rem}
+.verdict h3{margin:8px 0 4px;font-size:1.1rem}
+.verdict.ok h3{color:var(--vert)}.verdict.ko h3{color:var(--rouge)}
+.verdict p{font-size:.85rem;color:var(--gris)}
+.erreurs{background:#fff;border:1px solid var(--bord);border-radius:14px;padding:14px 16px;margin-bottom:14px;font-size:.85rem}
+.erreurs li{margin:6px 0 6px 18px;color:#8a3a3a}
+
+/* Forms */
+.field{margin-bottom:14px}
+.field label{display:block;font-size:.82rem;font-weight:600;color:#33424e;margin-bottom:6px}
+.field input,.field select,.field textarea{width:100%;padding:12px;border:2px solid var(--bord);
+  border-radius:12px;font-size:.95rem;font-family:inherit;background:#fff;color:#1c2833}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--bleu2)}
+.field textarea{min-height:110px;resize:vertical}
+.field .help{font-size:.75rem;color:var(--gris);margin-top:4px}
+
+/* Documents checklist */
+.doc{display:flex;gap:12px;align-items:flex-start;padding:13px 4px;border-bottom:1px solid var(--bord)}
+.doc:last-child{border-bottom:none}
+.doc .cb{position:relative;width:26px;height:26px;flex-shrink:0;margin-top:1px}
+.doc input{position:absolute;opacity:0;width:100%;height:100%;cursor:pointer}
+.doc .box{width:26px;height:26px;border:2px solid var(--bord);border-radius:8px;background:#fff;
+  display:flex;align-items:center;justify-content:center;transition:.15s;font-size:0}
+.doc input:checked + .box{background:var(--vert);border-color:var(--vert);color:#fff;font-size:15px}
+.doc .dt{font-size:.88rem;font-weight:600}
+.doc .dd{font-size:.78rem;color:var(--gris)}
+.doc .opt{font-size:.68rem;background:#eef3f7;color:var(--bleu2);border-radius:6px;padding:2px 7px;
+  font-weight:700;margin-left:6px;vertical-align:middle}
+.progress{height:10px;background:#e2e8ee;border-radius:10px;overflow:hidden;margin:10px 0 6px}
+.progress > div{height:100%;background:linear-gradient(90deg,var(--accent),#f7c35f);width:0;transition:.5s;border-radius:10px}
+.pct{font-size:.8rem;color:var(--gris);text-align:right}
+
+/* Timeline */
+.tl{position:relative;padding-left:22px;margin:10px 0}
+.tl::before{content:'';position:absolute;left:6px;top:6px;bottom:6px;width:2px;background:var(--bord)}
+.tl .ev{position:relative;padding:6px 0 12px;font-size:.85rem}
+.tl .ev::before{content:'';position:absolute;left:-20px;top:12px;width:10px;height:10px;
+  border-radius:50%;background:var(--bleu2)}
+.tl .ev b{color:var(--bleu);display:block;font-size:.8rem}
+.tl .ev.alerte::before{background:var(--rouge)}
+.tl .ev.gold::before{background:var(--accent)}
+
+/* Résumé */
+.sum-item{background:#fff;border:1px solid var(--bord);border-radius:12px;padding:12px 14px;
+  margin-bottom:10px;font-size:.85rem}
+.sum-item b{color:var(--bleu)}
+.sum-item .val{color:#1c2833}
+.manquant{color:var(--rouge);font-weight:700}
+.okcheck{color:var(--vert);font-weight:700}
+
+.hidden{display:none!important}
+footer{text-align:center;font-size:.72rem;color:var(--gris);padding:24px 16px 8px;max-width:640px;margin:0 auto}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(80px);
+  background:var(--bleu);color:#fff;padding:12px 20px;border-radius:30px;font-size:.85rem;
+  opacity:0;transition:.3s;z-index:99;box-shadow:0 6px 20px rgba(0,0,0,.25)}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.installbtn{position:fixed;bottom:18px;right:16px;background:var(--bleu);color:#fff;border:none;
+  border-radius:30px;padding:12px 18px;font-size:.82rem;font-weight:700;box-shadow:0 6px 18px rgba(14,58,83,.4);
+  z-index:50;cursor:pointer}
+@media(min-width:640px){html{font-size:17px}}
+
+.wcount{font-size:.75rem;color:var(--gris);text-align:right;margin-top:4px}
+.mini{background:#eef3f7;border:1px solid var(--bord);border-radius:10px;padding:10px 12px;
+  font-size:.78rem;color:#33424e;margin-top:10px;line-height:1.5}
+.mini b{color:var(--bleu)}
+.chk4 li{list-style:none;margin:7px 0;font-size:.84rem;display:flex;gap:8px}
+.chk4 li::before{content:'✔';color:var(--vert);font-weight:900}
+@media print{
+  header,.steps,footer,.btn,.installbtn,.toast{display:none!important}
+  body{background:#fff}
+  .card{box-shadow:none;break-inside:avoid}
+  .hidden{display:none!important}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo"><span class="badge">QMA</span> Bourses d'excellence · Diagnostic candidat</div>
+  <p>Formation professionnelle · Ministère de l'Éducation du Québec · Concours 2026-2027</p>
+  <div class="countdown">
+    <span class="lbl">Dépôt des candidatures avant le</span>
+    📅 <b id="cd"></b> &nbsp;jours restants — <span style="font-size:.8rem">28 oct. 2026, 23 h 59 (HE)</span>
+  </div>
+</header>
+
+<div class="steps">
+  <div class="dot" id="d1"></div><div class="dot" id="d2"></div><div class="dot" id="d3"></div><div class="dot" id="d4"></div><div class="dot" id="d5"></div>
+</div>
+
+<div class="wrap">
+
+<!-- ============ ÉTAPE 1 : ÉLIGIBILITÉ ============ -->
+<section id="s1">
+  <h2 class="sec"><span class="n">1</span> Vérification d'éligibilité</h2>
+  <p class="hint">Répondez à chaque question. Les réponses déterminent votre admissibilité au concours.</p>
+  <div class="card" id="quiz"></div>
+  <div id="resultatElig" class="hidden"></div>
+  <button class="btn btn-primaire hidden" id="btnGo2">✓ Éligible — Constituer mon dossier →</button>
+</section>
+
+<!-- ============ ÉTAPE 2 : PROJET D'ÉTUDES ============ -->
+<section id="s2" class="hidden">
+  <h2 class="sec"><span class="n">2</span> Votre projet d'études</h2>
+  <p class="hint">Formations priorisées offertes en français (Annexe 1 du guide). Choix définitif : aucun changement possible après sélection.</p>
+  <div class="card">
+    <div class="field">
+      <label>Secteur</label>
+      <select id="fSecteur" onchange="majFormations()"></select>
+    </div>
+    <div class="field">
+      <label>Formation (DEP)</label>
+      <select id="fFormation"></select>
+    </div>
+    <div class="field">
+      <label>Région visée <span style="font-weight:400;color:var(--gris)">(priorisées ★)</span></label>
+      <select id="fRegion"></select>
+      <div class="help">★ Les régions priorisées bénéficient d'au moins 50 % des bourses — meilleures chances.</div>
+    </div>
+    <div class="field">
+      <label>Langue de formation</label>
+      <select id="fLangue"><option>Français</option></select>
+      <div class="help">Seules les formations offertes en français sont retenues par cette application.</div>
+    </div>
+  </div>
+  <button class="btn btn-primaire" onclick="goto(3)">Continuer →</button>
+  <button class="btn btn-secondaire" onclick="goto(1)">← Retour</button>
+</section>
+
+<!-- ============ ÉTAPE 3 : PIÈCES DU DOSSIER ============ -->
+<section id="s3" class="hidden">
+  <h2 class="sec"><span class="n">3</span> Pièces du dossier</h2>
+  <p class="hint">Cochez chaque pièce préparée. Rappel : tous les documents sont téléversés sur la plateforme, aucun courriel accepté.</p>
+  <div class="card">
+    <div class="progress"><div id="bar3"></div></div>
+    <div class="pct" id="pct3">0 %</div>
+    <div id="docList"></div>
+  </div>
+  <div class="card">
+    <h3>💬 Niveau de langue — option choisie</h3>
+    <div class="field">
+      <select id="optLangue" onchange="sauve()">
+        <option value="">— Sélectionner —</option>
+        <option>Test de français reconnu (TFL, TFI, TEF, TEFAQ, Bright FIVE STARS, TCF-France/Canada/Québec)</option>
+        <option>Études supérieures (≥ 3 ans) entièrement en français</option>
+        <option>Diplôme délivré par le ministère de l'Éducation de la France ou de la Belgique francophone</option>
+        <option>Test prévu — déclaration de passation (résultat au plus tard le 20 nov. 2026)</option>
+      </select>
+      <div class="help">Test valide : moins de 2 ans, 4 compétences évaluées, B2 minimum pour chacune.</div>
+    </div>
+    <div class="field">
+      <label>Montant de la capacité financière déclarée (CAD)</label>
+      <input type="number" id="finances" placeholder="ex. 25 000" oninput="sauve()">
+      <div class="help">Minimum : 10 617 CAD (bourse d'excellence) ou 24 617 CAD (exemption seule), exigé par IRCC.</div>
+    </div>
+  </div>
+  <button class="btn btn-primaire" onclick="goto(4)">Continuer →</button>
+  <button class="btn btn-secondaire" onclick="goto(2)">← Retour</button>
+</section>
+
+<!-- ============ ÉTAPE 4 : QUALITÉ DE LA CANDIDATURE ============ -->
+<section id="s4" class="hidden">
+  <h2 class="sec"><span class="n">4</span> Renforcer votre candidature</h2>
+  <p class="hint">Grille d'évaluation officielle — rédigez vos éléments ici, puis copiez-les dans la plateforme.</p>
+  <div class="card">
+    <h3>🎯 Motivations et intérêts <span style="color:var(--accent)">— 30 %</span></h3>
+    <textarea id="tMotiv" placeholder="Pourquoi ce métier ? Ce centre ? Ce retour à l'emploi au Québec ?" oninput="sauve();wc(this,'wcMotiv')"></textarea>
+    <div class="wcount" id="wcMotiv">0 mot · cible conseillée : 150+</div>
+  </div>
+  <div class="card">
+    <h3>🧭 Parcours professionnel détaillé <span style="color:var(--accent)">— 30 %</span></h3>
+    <textarea id="tParcours" placeholder="Emplois, stages, responsabilités, compétences transférables…" oninput="sauve();wc(this,'wcParc')"></textarea>
+    <div class="wcount" id="wcParc">0 mot · cible conseillée : 120+</div>
+  </div>
+  <div class="card">
+    <h3>📜 Prix et distinctions <span style="color:var(--accent)">— 5 %</span> <span class="opt">FACULTATIF · max 2</span></h3>
+    <textarea id="tPrix" placeholder="Maximum 2 prix, avec preuves à téléverser." oninput="sauve()"></textarea>
+  </div>
+  <div class="card">
+    <h3>🤝 Références <span style="color:var(--accent)">— 15 %</span></h3>
+    <p style="font-size:.82rem;color:var(--gris)">2 formulaires de référence (personnes différentes) à télécharger et faire remplir. La nouvelle version du formulaire est recommandée.</p>
+  </div>
+  <button class="btn btn-primaire" onclick="goto(5)">Voir mon bilan →</button>
+  <button class="btn btn-secondaire" onclick="goto(3)">← Retour</button>
+</section>
+
+<!-- ============ ÉTAPE 5 : BILAN & EXPORT ============ -->
+<section id="s5" class="hidden">
+  <h2 class="sec"><span class="n">5</span> Bilan de votre dossier</h2>
+  <div class="card" style="text-align:center">
+    <div style="font-size:2rem;font-weight:800;color:var(--bleu)" id="scoreGlobal">—</div>
+    <div class="progress"><div id="bar5"></div></div>
+    <div class="pct" id="pct5">Dossier 0 % prêt</div>
+  </div>
+  <div id="bilan"></div>
+  <button class="btn btn-primaire" onclick="exporter()">⬇️ Télécharger mon bilan (.txt)</button>
+  <button class="btn btn-bleu" onclick="window.print()">🖨️ Imprimer</button>
+  <button class="btn btn-secondaire" onclick="goto(4)">← Retour</button>
+  <div class="mini">
+    <b>Conseiller :</b> <a href="#" onclick="demo();return false;">🧪 Charger un dossier de démonstration</a> pour tester l'app ·
+    <a href="#" onclick="resetAll();return false;">🔄 Réinitialiser pour un nouveau candidat</a>
+  </div>
+  <div class="card" style="margin-top:18px">
+    <h3>📋 Liste de vérification officielle (Annexe 4)</h3>
+    <ul class="chk4" id="chk4"></ul>
+  </div>
+  <div class="card" style="margin-top:18px">
+    <h3>📅 Calendrier clé du concours</h3>
+    <div class="tl">
+      <div class="ev alerte"><b>28 oct. 2026, 23 h 59 (HE)</b>Dépôt des candidatures sur bourses.boursesqma.com</div>
+      <div class="ev alerte"><b>20 nov. 2026</b>Date limite — résultat du test de langue (si déclaration de passation)</div>
+      <div class="ev"><b>23 nov. 2026 – 15 janv. 2027</b>Évaluation des demandes</div>
+      <div class="ev gold"><b>25 janv. 2027</b>Annonce — tour 1 (réponse sous 30 jours)</div>
+      <div class="ev gold"><b>1er mars 2027</b>Annonce — tour 2 (réponse avant le 31 mars 2027)</div>
+      <div class="ev"><b>Dès mars 2027</b>Démarches d'immigration accompagnées</div>
+      <div class="ev"><b>Janv. – déc. 2028</b>Arrivée au Québec et début de la formation</div>
+    </div>
+  </div>
+</section>
+
+</div>
+
+<footer>Application d'assistance indépendante · basée sur le Guide de candidats 2026-2027 ·<br>
+Bourse d'excellence : 14 000 – 26 600 CAD + RAMQ · Vérifiez toujours les informations officielles sur boursesQMA.com</footer>
+
+<div class="toast" id="toast"></div>
+<button class="installbtn hidden" id="installBtn">📲 Installer l'app</button>
+
+<script>
+/* =================== DONNÉES =================== */
+const FORMATIONS = {"Santé": [["Assistance technique en pharmacie", "1590 h"], ["Retraitement des dispositifs médicaux", "1080 h"], ["Santé, assistance et soins infirmiers", "1800 h"]], "Construction": [["Briquetage-Maçonnerie", "900 h"], ["Charpenterie-menuiserie", "1350 h"], ["Électricité", "1800 h"], ["Ferblanterie", "1605 h"], ["Installation et entretien de systèmes de sécurité", "1485 h"], ["Mécanique d'engins de chantier", "1800 h"]], "Industrie et batterie": [["Conduite de machines de traitement du minerai", "900 h"], ["Électromécanique de systèmes automatisés", "1800 h"], ["Extraction de minerai", "930 h"], ["Transformation des métaux en fusion", "1170 h"], ["Mécanique industrielle de construction et d'entretien", "1800 h"], ["Mécanique de machines fixes", "1800 h"], ["Usinage", "1800 h"]], "Autres secteurs": [["Mécanique automobile", "1800 h"], ["Mécanique de véhicules lourds routiers", "1800 h"]]};
+const REGIONS = ["Bas-Saint-Laurent", "Saguenay-Lac-Saint-Jean", "Estrie", "Abitibi-Témiscamingue", "Côte-Nord", "Nord-du-Québec", "Gaspésie-Îles-de-la-Madeleine", "Chaudière-Appalaches", "Centre-du-Québec"];
+
+const QUESTIONS = [
+  {id:'age', q:"Avez-vous 18 ans ou plus ?", s:"Aucune limite d'âge supérieure.", c:v=>v==='oui'},
+  {id:'nat', q:"Êtes-vous ressortissant(e) d'un pays autre que le Canada et la France ?", s:"Priorité : pays de la Francophonie, Asie (Chine, Corée, Inde, Japon), Amériques (Brésil, Colombie, USA, Mexique).", c:v=>v==='oui'},
+  {id:'cit', q:"Êtes-vous SANS citoyenneté canadienne, SANS statut de résident permanent et SANS demande de résidence permanente en cours ?", s:"Les résidents permanents peuvent être admissibles hors concours.", c:v=>v==='oui'},
+  {id:'ext', q:"Résiderez-vous à l'EXTÉRIEUR du Canada du dépôt jusqu'à l'annonce des sélectionnés ?", s:"", c:v=>v==='oui'},
+  {id:'adm', q:"Répondez-vous aux conditions d'admission du programme de formation souhaité ?", s:"À vérifier auprès du centre de formation professionnelle.", c:v=>v==='oui'},
+  {id:'lang', q:"Possédez-vous un niveau de français B2 minimum (4 compétences) — ou un test prévu (résultat au plus tard le 20 nov. 2026) ?", s:"Échelle québécoise : niveau 7+ souhaitable. Tests : TFL, TFI, TEF, TEFAQ, Bright, TCF. Une formation d'au moins 3 ans entièrement en français ou un diplôme français/belge francophone est aussi acceptée.", c:v=>v==='oui'},
+  {id:'bourse', q:"N'avez-vous JAMAIS bénéficié d'une bourse du MEQ pour des études d'un niveau égal ou supérieur au Québec ?", s:"Le cumul de bourses durant une même année scolaire n'est pas autorisé.", c:v=>v==='oui'},
+  {id:'fraude', q:"Avez-vous toujours soumis des candidatures authentiques (jamais de documents frauduleux) ?", s:"Toute fausse déclaration entraîne un rejet automatique.", c:v=>v==='oui'},
+  {id:'fin', q:"Pouvez-vous déclarer au moins 10 617 CAD (bourse d'excellence) ou 24 617 CAD (exemption seule) de capacité financière ?", s:"Montants exigés par IRCC en cas de sélection.", c:v=>v==='oui'},
+];
+
+const DOCS = [
+  {id:'d1', t:"Passeport ou carte nationale d'identité", d:"Copie de la page d'identification.", req:true},
+  {id:'d2', t:"Acte ou certificat de naissance", d:"Copie de l'original.", req:true},
+  {id:'d3', t:"Diplômes et relevés de notes", d:"Tous les niveaux : secondaire, professionnel/technique et/ou supérieur. Commentaire facultatif si parcours notable.", req:true},
+  {id:'d4', t:"Preuve du niveau de langue", d:"Test reconnu (< 2 ans, 4 compétences, B2+) OU preuve d'études ≥ 3 ans en français OU diplôme français/belge francophone OU déclaration de test prévu.", req:true},
+  {id:'d5', t:"2 formulaires de références", d:"Deux personnes différentes — nouvelle version du formulaire recommandée.", req:true},
+  {id:'d6', t:"Prix et distinctions (max 2)", d:"Facultatif, avec preuves.", req:false},
+];
+
+/* =================== ÉTAT =================== */
+let state = JSON.parse(localStorage.getItem('qma2026')||'{}');
+let reponses = state.reponses||{};
+let docsOk = state.docsOk||{};
+
+function sauve(){ state.reponses=reponses; state.docsOk=docsOk;
+  ['fSecteur','fFormation','fRegion','fLangue','optLangue','finances','tMotiv','tParcours','tPrix']
+    .forEach(id=>{const e=document.getElementById(id); if(e) state[id]=e.value;});
+  localStorage.setItem('qma2026', JSON.stringify(state)); }
+
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2200);}
+
+/* =================== ÉTAPE 1 : QUIZ =================== */
+const quizDiv=document.getElementById('quiz');
+QUESTIONS.forEach(q=>{
+  const div=document.createElement('div'); div.className='q';
+  div.innerHTML=`<div class="qt">${q.q}${q.s?`<small>💡 ${q.s}</small>`:''}</div>
+    <div class="choix">
+      <button type="button" data-q="${q.id}" data-v="oui">Oui</button>
+      <button type="button" data-q="${q.id}" data-v="non">Non</button>
+    </div>`;
+  quizDiv.appendChild(div);
+});
+quizDiv.addEventListener('click',e=>{
+  const b=e.target.closest('button[data-q]'); if(!b)return;
+  reponses[b.dataset.q]=b.dataset.v; sauve();
+  document.querySelectorAll(`button[data-q="${b.dataset.q}"]`).forEach(x=>x.classList.remove('sel-oui','sel-non'));
+  b.classList.add(b.dataset.v==='oui'?'sel-oui':'sel-non');
+  evaluer();
+});
+function evaluer(){
+  const rest=QUESTIONS.filter(q=>!reponses[q.id]);
+  const ko=QUESTIONS.filter(q=>reponses[q.id] && !q.c(reponses[q.id]));
+  const res=document.getElementById('resultatElig'), btn=document.getElementById('btnGo2');
+  if(rest.length){res.classList.add('hidden');btn.classList.add('hidden');return;}
+  if(ko.length){
+    btn.classList.add('hidden');
+    res.className='verdict ko';
+    res.innerHTML=`<div class="emoji">⚠️</div><h3>Candidature non admissible actuellement</h3>
+      <p>${ko.length} condition(s) bloquante(s) identifiée(s) :</p>
+      <ul class="erreurs">${ko.map(q=>`<li>${q.q.replace(/<[^>]*>/g,'')}</li>`).join('')}</ul>
+      <p style="margin-top:8px">Le non-respect d'une condition entraîne le rejet de la candidature. Contactez un conseiller pour explorer les alternatives (ex. exemption hors concours pour résidents permanents).</p>`;
+  } else {
+    res.className='verdict ok';
+    res.innerHTML=`<div class="emoji">🎉</div><h3>Vous êtes éligible au concours !</h3>
+      <p>Direction la constitution de votre dossier. Financement 2026-2027 : 1 680 000 CAD en bourses d'excellence (14 000 – 26 600 CAD chacune, selon la durée) + exemption des droits + couverture RAMQ.</p>`;
+    btn.classList.remove('hidden');
+  }
+  res.classList.remove('hidden');
+}
+
+/* =================== NAVIGATION =================== */
+function goto(n){
+  [1,2,3,4,5].forEach(i=>{
+    document.getElementById('s'+i).classList.toggle('hidden', i!==n);
+    document.getElementById('d'+i).classList.toggle('on', i<=n);
+  });
+  window.scrollTo({top:0,behavior:'smooth'});
+  if(n===5) bilan();
+}
+document.getElementById('btnGo2').onclick=()=>goto(2);
+
+/* =================== ÉTAPE 2 : FORMATIONS =================== */
+const selS=document.getElementById('fSecteur'), selF=document.getElementById('fFormation');
+Object.keys(FORMATIONS).forEach(s=>selS.add(new Option(s,s)));
+function majFormations(){
+  selF.innerHTML='';
+  FORMATIONS[selS.value].forEach(([f,h])=>selF.add(new Option(`${f} — ${h}`,f)));
+  sauve();
+}
+selS.onchange=majFormations; selF.onchange=sauve;
+const selR=document.getElementById('fRegion');
+REGIONS.forEach(r=>selR.add(new Option('★ '+r+' (priorisée)',r)));
+['Bas-Saint-Laurent','Saguenay-Lac-Saint-Jean','Estrie','Abitibi-Témiscamingue','Côte-Nord','Nord-du-Québec','Gaspésie-Îles-de-la-Madeleine','Chaudière-Appalaches','Centre-du-Québec']
+  .forEach(r=>selR.add(new Option(r,r)));
+selR.onchange=sauve;
+
+/* =================== ÉTAPE 3 : DOCS =================== */
+const dl=document.getElementById('docList');
+DOCS.forEach(d=>{
+  const div=document.createElement('div'); div.className='doc';
+  div.innerHTML=`<div class="cb"><input type="checkbox" id="${d.id}" ${docsOk[d.id]?'checked':''}>
+    <div class="box">✓</div></div>
+    <div><div class="dt">${d.t}${d.req?'':' <span class="opt">FACULTATIF</span>'}</div>
+    <div class="dd">${d.d}</div></div>`;
+  dl.appendChild(div);
+  div.querySelector('input').addEventListener('change',e=>{docsOk[d.id]=e.target.checked; sauve(); majBar3();});
+});
+function majBar3(){
+  const req=DOCS.filter(d=>d.req).length;
+  const okR=DOCS.filter(d=>d.req&&docsOk[d.id]).length;
+  const pct=Math.round(100*okR/req);
+  document.getElementById('bar3').style.width=pct+'%';
+  document.getElementById('pct3').textContent=pct+' % des pièces obligatoires';
+}
+function majBar5(p){document.getElementById('bar5').style.width=p+'%';
+  document.getElementById('pct5').textContent='Dossier '+p+' % prêt';}
+
+/* =================== ÉTAPE 5 : BILAN =================== */
+function bilan(){
+  const req=DOCS.filter(d=>d.req), okR=req.filter(d=>docsOk[d.id]);
+  const champsRemplis=['fFormation','optLangue','finances'].filter(id=>document.getElementById(id).value).length
+    + (document.getElementById('tMotiv').value.trim()?1:0)
+    + (document.getElementById('tParcours').value.trim()?1:0)
+    + (Object.keys(reponses).length===QUESTIONS.length?1:0);
+  const total=req.length+4;
+  const pct=Math.min(100,Math.round(100*(okR.length+champsRemplis)/total));
+  document.getElementById('scoreGlobal').textContent=pct+' %';
+  majBar5(pct);
+
+  const fin=parseFloat(document.getElementById('finances').value)||0;
+  const finOk=fin>=10617, finExo=fin>=24617;
+  const f=document.getElementById('fFormation').value, r=document.getElementById('fRegion').value;
+
+  let h=`<div class="card"><h3>📋 Synthèse du dossier</h3>`;
+  h+=ligne('Éligibilité', Object.keys(reponses).length===QUESTIONS.length && QUESTIONS.every(q=>q.c(reponses[q.id]))?'✓ Vérifiée':'⚠ À compléter');
+  h+=ligne('Formation choisie', f?f+' ('+document.getElementById('fSecteur').value+')':'⚠ Non choisie');
+  h+=ligne('Région', r||'⚠ Non choisie');
+  h+=ligne('Capacité financière', finOk?(finExo?'✓ '+fin.toLocaleString('fr-CA')+' CAD — bourse ET exemption possibles':'✓ '+fin.toLocaleString('fr-CA')+' CAD — bourse d\'excellence possible (24 617 CAD pour l\'exemption seule)'):'⚠ Sous le minimum de 10 617 CAD');
+  h+=ligne('Option niveau de langue', document.getElementById('optLangue').value||'⚠ Non précisée');
+  h+=`</div><div class="card"><h3>📑 Pièces obligatoires (${okR.length}/${req.length})</h3>`;
+  DOCS.forEach(d=>{h+=ligne(d.t, docsOk[d.id]?'<span class="okcheck">✓ Prête</span>':'<span class="manquant">✗ Manquante</span>');});
+  h+=ligne('Motivations rédigées', document.getElementById('tMotiv').value.trim()?'<span class="okcheck">✓</span> ('+document.getElementById('tMotiv').value.trim().length+' caractères — soignez les 30 %)':'<span class="manquant">✗</span>');
+  h+=ligne('Parcours professionnel rédigé', document.getElementById('tParcours').value.trim()?'<span class="okcheck">✓</span>':'<span class="manquant">✗</span>');
+  h+=`</div>`;
+  if(pct===100) h=`<div class="verdict ok"><div class="emoji">🏆</div><h3>Dossier 100 % prêt !</h3><p>Soumettez sur bourses.boursesqma.com avant le 28 octobre 2026, 23 h 59 (HE). Une seule candidature par personne.</p></div>`+h;
+  document.getElementById('bilan').innerHTML=h;
+}
+function ligne(k,v){return `<div class="sum-item"><b>${k}</b><br><span class="val">${v}</span></div>`;}
+
+/* =================== EXPORT =================== */
+function exporter(){
+  const g=id=>document.getElementById(id).value;
+  let txt='BILAN DOSSIER — BOURSE D\'EXCELLENCE QMA 2026-2027\n'+'='.repeat(52)+'\n\n';
+  txt+='ÉLIGIBILITÉ : '+((Object.keys(reponses).length===QUESTIONS.length && QUESTIONS.every(q=>q.c(reponses[q.id])))?'ÉLIGIBLE':'À VÉRIFIER')+'\n';
+  txt+='Formation : '+g('fFormation')+' ('+g('fSecteur')+')\nRégion : '+g('fRegion')+'\n';
+  txt+='Finances déclarées : '+g('finances')+' CAD\nOption langue : '+g('optLangue')+'\n\nDOCUMENTS\n';
+  DOCS.forEach(d=>txt+='['+(docsOk[d.id]?'X':' ')+'] '+(d.req?'(obligatoire)':'(facultatif) ')+' '+d.t+'\n');
+  txt+='\nMOTIVATIONS (30 %)\n'+(g('tMotiv')||'—')+'\n\nPARCOURS PRO (30 %)\n'+(g('tParcours')||'—')+'\n\nPRIX (5 %)\n'+(g('tPrix')||'—')+'\n';
+  txt+='\nÉchéances : dépôt 28/10/2026 23h59 HE · test langue 20/11/2026 · annonces 25/01 et 01/03/2027\nPlateforme : https://bourses.boursesqma.com';
+  const b=new Blob([txt],{type:'text/plain;charset=utf-8'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(b);
+  a.download='bilan-candidature-QMA.txt'; a.click(); URL.revokeObjectURL(a.href);
+  toast('Bilan téléchargé ✓');
+}
+
+
+/* =================== V2 : compteur, démo, reset, checklist =================== */
+function wc(t,id){const n=t.value.trim()?t.value.trim().split(/\s+/).length:0;
+  document.getElementById(id).textContent=n+' mot'+(n>1?'s':'')+' · cible conseillée : '+(id==='wcMotiv'?'150+':'120+');}
+
+function demo(){
+  QUESTIONS.forEach(q=>{reponses[q.id]='oui';
+    const b=document.querySelector(`button[data-q="${q.id}"][data-v="oui"]`);
+    document.querySelectorAll(`button[data-q="${q.id}"]`).forEach(x=>x.classList.remove('sel-oui','sel-non'));
+    if(b)b.classList.add('sel-oui');});
+  document.getElementById('fSecteur').value='Santé';majFormations();
+  document.getElementById('fFormation').value='Santé, assistance et soins infirmiers';
+  document.getElementById('fRegion').value='★ Saguenay-Lac-Saint-Jean (priorisée)';
+  document.getElementById('optLangue').value='Test de français reconnu (TFL, TFI, TEF, TEFAQ, Bright FIVE STARS, TCF-France/Canada/Québec)';
+  document.getElementById('finances').value='26500';
+  document.getElementById('tMotiv').value="Depuis mon diplôme d'aide-soignant à Kinshasa, j'accompagne des patients en établissement. La formation Santé, assistance et soins infirmiers au Québec me permettra de professionnaliser ma pratique dans un système reconnu. Le Saguenay-Lac-Saint-Jean, région priorisée, offre d'excellentes perspectives en soins infirmiers. Mon projet : obtenir mon DEP, intégrer un centre hospitalier québécois et contribuer à la relève en santé.";
+  document.getElementById('tParcours').value="2021-2026 : Aide-soignant, Hôpital du Cinquantenaire (Kinshasa). Soins d'hygiène, aide à la mobilité, surveillance des constantes, collaboration avec infirmiers. 2019-2021 : Préposé en pharmacie communautaire — gestion des stocks et accueil des patients. Bénévolat Croix-Rouge : premiers secours.";
+  document.getElementById('tPrix').value="Prix d'excellence du meilleur aide-soignant stagiaire, 2022.";
+  docsOk={d1:true,d2:true,d3:true,d4:true,d5:true};
+  DOCS.forEach(d=>{const c=document.getElementById(d.id);if(c)c.checked=!!docsOk[d.id];});
+  sauve();majBar3();evaluer();wc(document.getElementById('tMotiv'),'wcMotiv');wc(document.getElementById('tParcours'),'wcParc');
+  toast('Dossier de démonstration chargé ✓');goto(2);
+}
+function resetAll(){
+  if(!confirm('Effacer toutes les données du candidat actuel ?'))return;
+  localStorage.removeItem('qma2026');location.reload();
+}
+const CHK4=["J'ai lu la documentation du Concours (site, guide, FAQ)",
+ "J'ai vérifié mon admissibilité à tous les critères",
+ "Je peux prouver la capacité financière minimale (10 617 CAD)",
+ "J'ai préparé tous les documents requis",
+ "Inscription et profil complétés sur la plateforme",
+ "Politique de confidentialité lue",
+ "Formation, ville et région documentées (comparaison d'options faite)",
+ "Toutes les sections de la candidature complétées (identité, formulaire, scolarité, langue, références, prix)",
+ "Déclarations et engagements lus et compris",
+ "Candidature envoyée avant le 28 oct. 2026, 23 h 59 (HE)",
+ "Résultat du test de langue transmis au plus tard le 20 nov. 2026 (le cas échéant)"];
+document.getElementById('chk4').innerHTML=CHK4.map(t=>`<li>${t}</li>`).join('');
+
+/* =================== COUNTDOWN =================== */
+function tick(){
+  const dl=new Date('2026-10-28T23:59:00-04:00'), now=new Date();
+  const j=Math.max(0,Math.ceil((dl-now)/86400000));
+  document.getElementById('cd').textContent=j;
+}
+
+/* =================== PWA =================== */
+if('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(()=>{});
+let deferredPrompt=null;
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;
+  document.getElementById('installBtn').classList.remove('hidden');});
+document.getElementById('installBtn').onclick=async()=>{if(deferredPrompt){deferredPrompt.prompt();
+  await deferredPrompt.userChoice; deferredPrompt=null;
+  document.getElementById('installBtn').classList.add('hidden');}};
+
+/* =================== RESTAURATION =================== */
+(function(){
+  if(state.reponses) Object.entries(state.reponses).forEach(([k,v])=>{
+    const b=document.querySelector(`button[data-q="${k}"][data-v="${v}"]`);
+    if(b){b.classList.add(v==='oui'?'sel-oui':'sel-non');}
+  });
+  ['fSecteur','fRegion','optLangue','finances','tMotiv','tParcours','tPrix'].forEach(id=>{
+    if(state[id]) document.getElementById(id).value=state[id];});
+  majFormations();
+  if(state.fFormation) document.getElementById('fFormation').value=state.fFormation;
+  majBar3(); evaluer(); wc(document.getElementById('tMotiv'),'wcMotiv'); wc(document.getElementById('tParcours'),'wcParc'); goto(1); tick(); setInterval(tick,60000);
+})();
+</script>
+</body>
+</html>
