@@ -1,13 +1,17 @@
-{"date":"2026-10-10","titre":"Atelier samedi à Kinshasa","texte":"Apportez votre passeport. Places limitées."}
 [
   {
-    "date": "2026-10-03",
-    "titre": "Bienvenue sur QMA Diagnostic 🎉",
-    "texte": "Votre conseiller publiera ici les annonces : ateliers de préparation, rappels d'échéances et résultats. Date butoir : 28 octobre 2026, 23 h 59 (heure du Québec)."
+    "date": "2026-10-10",
+    "titre": "Atelier samedi à Kinshasa",
+    "texte": "Apportez votre passeport. Places limitées."
   },
   {
     "date": "2026-10-01",
     "titre": "Atelier de préparation aux tests de français",
     "texte": "Prochain atelier TCF/TEF le samedi à Kinshasa. Apportez votre pièce d'identité. Places limitées — confirmez via WhatsApp au +243 84 892 453."
+  },
+  {
+    "date": "2026-10-03",
+    "titre": "Bienvenue sur QMA Diagnostic 🎉",
+    "texte": "Votre conseiller publiera ici les annonces : ateliers de préparation, rappels d'échéances et résultats. Date butoir : 28 octobre 2026, 23 h 59 (heure du Québec)."
   }
 ]
