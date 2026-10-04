@@ -21,19 +21,20 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica N
   background:var(--fond);color:var(--text);line-height:1.55;min-height:100vh}
 .wrap{max-width:640px;margin:0 auto;padding:0 16px 110px}
 header{background:linear-gradient(135deg,var(--bleu) 0%,var(--bleu2) 100%);color:#fff;
-  padding:24px 18px 70px;border-radius:0 0 28px 28px}
+  padding:24px 18px 88px;border-radius:0 0 28px 28px}
 header .logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:1.12rem}
 header .logo .badge{background:var(--accent);color:var(--bleu);border-radius:10px;padding:4px 10px;font-size:.8rem;font-weight:900}
-header p{opacity:.85;font-size:.84rem;margin-top:6px}
+.logoimg{width:46px;height:46px;border-radius:50%;object-fit:cover;flex-shrink:0;background:transparent}
+header p{opacity:.9;font-size:.84rem;margin-top:8px}
 .countdown{margin-top:14px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);
   border-radius:14px;padding:12px 14px;font-size:.85rem}
 .countdown b{font-size:1.25rem;color:var(--accent)}
 .countdown .lbl{display:block;font-size:.72rem;opacity:.8;text-transform:uppercase;letter-spacing:1px}
-.steps{display:flex;gap:6px;margin:-46px auto 18px;position:relative;z-index:2;max-width:608px;padding:0 16px}
+.steps{display:flex;gap:6px;margin:-58px auto 18px;position:relative;z-index:2;max-width:608px;padding:0 16px}
 .steps .dot{flex:1;height:6px;border-radius:6px;background:#d7e0e8;transition:.4s}
 .steps .dot.on{background:var(--accent)}
 body.special .steps{display:none}
-h2.sec{font-size:1.05rem;color:var(--bleu);margin:22px 0 4px;display:flex;align-items:center;gap:8px}
+h2.sec{font-size:1.05rem;color:var(--bleu);margin:30px 0 4px;display:flex;align-items:center;gap:8px}
 h2.sec .n{background:var(--bleu);color:#fff;width:26px;height:26px;border-radius:50%;
   display:inline-flex;align-items:center;justify-content:center;font-size:.8rem;flex-shrink:0}
 [data-theme="dark"] h2.sec{color:#7fb8dc}
@@ -149,7 +150,7 @@ footer{text-align:center;font-size:.72rem;color:var(--gris);padding:24px 16px 8p
 </head>
 <body>
 <header>
-  <div class="logo"><span class="badge">QMA</span> <span data-i18n="brand">Bourses d'excellence · Diagnostic candidat</span></div>
+  <div class="logo"><img src="logo.png" alt="Congo Bourse" class="logoimg"> <span data-i18n="brand">Bourses d'excellence · Diagnostic candidat</span></div>
   <p data-i18n="tag">Formation professionnelle · Ministère de l'Éducation du Québec · Concours 2026-2027</p>
   <div class="countdown">
     <span class="lbl" data-i18n="cdlbl">Dépôt des candidatures avant le</span>
@@ -203,7 +204,7 @@ footer{text-align:center;font-size:.72rem;color:var(--gris);padding:24px 16px 8p
     <div class="field">
       <label data-i18n="finl">Montant de la capacité financière déclarée (CAD)</label>
       <input type="number" id="finances" placeholder="ex. 25 000" oninput="sauve()">
-      <div class="help" data-i18n="finhelp">Minimum : 10 617 CAD (bourse) ou 24 617 CAD (exemption seule), exigé par IRCC.</div>
+      <div class="help" data-i18n="finhelp">Minimum : 10 617 CAD (≈ 7 430 USD) pour la bourse — 24 617 CAD (≈ 17 230 USD) pour l'exemption seule.</div>
     </div>
   </div>
   <button class="btn btn-primaire" onclick="goto(4)"><span data-i18n="bnext">Continuer →</span></button>
@@ -297,11 +298,6 @@ footer{text-align:center;font-size:.72rem;color:var(--gris);padding:24px 16px 8p
       <button class="btn btn-secondaire" onclick="delProfil()" data-i18n="profDel">🗑 Supprimer</button>
       <button class="btn btn-secondaire" onclick="newDossier()" data-i18n="profNew">✨ Nouveau candidat</button>
     </div>
-    <div class="row2">
-      <button class="btn btn-secondaire" onclick="exportProfils()" data-i18n="profExp">⬇️ Exporter JSON</button>
-      <button class="btn btn-secondaire" onclick="document.getElementById('impFile').click()" data-i18n="profImp">⬆️ Importer JSON</button>
-    </div>
-    <input type="file" id="impFile" accept=".json,application/json" class="hidden" onchange="importProfils(this)">
   </div>
   <div class="card">
     <h3 data-i18n="remT">🔔 Rappels d'échéances</h3>
@@ -323,14 +319,6 @@ footer{text-align:center;font-size:.72rem;color:var(--gris);padding:24px 16px 8p
     <h3 data-i18n="thmT">🌙 Affichage</h3>
     <button class="btn btn-secondaire" onclick="toggleTheme()" id="btnTheme">🌙 Mode sombre</button>
   </div>
-  <div class="card">
-    <h3 data-i18n="lngT">🌍 Langue</h3>
-    <div class="row2">
-      <button class="btn btn-secondaire" onclick="setLang('fr')">🇫🇷 Français</button>
-      <button class="btn btn-secondaire" onclick="setLang('en')">🇬🇧 English</button>
-    </div>
-    <button class="btn btn-secondaire" onclick="setLang('es')">🇪🇸 Español</button>
-  </div>
 </section>
 </div>
 <footer>QMA Diagnostic v3 · Assistance indépendante · basée sur le Guide de candidats 2026-2027 ·<br>Bourse : 14 000 – 26 600 CAD + RAMQ · Référence officielle : boursesQMA.com</footer>
@@ -348,17 +336,17 @@ footer{text-align:center;font-size:.72rem;color:var(--gris);padding:24px 16px 8p
 const FORMATIONS = {"Santé": [["Assistance technique en pharmacie", "1590 h"], ["Retraitement des dispositifs médicaux", "1080 h"], ["Santé, assistance et soins infirmiers", "1800 h"]], "Construction": [["Briquetage-Maçonnerie", "900 h"], ["Charpenterie-menuiserie", "1350 h"], ["Électricité", "1800 h"], ["Ferblanterie", "1605 h"], ["Installation et entretien de systèmes de sécurité", "1485 h"], ["Mécanique d'engins de chantier", "1800 h"]], "Industrie et batterie": [["Conduite de machines de traitement du minerai", "900 h"], ["Électromécanique de systèmes automatisés", "1800 h"], ["Extraction de minerai", "930 h"], ["Transformation des métaux en fusion", "1170 h"], ["Mécanique industrielle de construction et d'entretien", "1800 h"], ["Mécanique de machines fixes", "1800 h"], ["Usinage", "1800 h"]], "Autres secteurs": [["Mécanique automobile", "1800 h"], ["Mécanique de véhicules lourds routiers", "1800 h"]]};
 const REGIONS = ["Bas-Saint-Laurent", "Saguenay-Lac-Saint-Jean", "Estrie", "Abitibi-Témiscamingue", "Côte-Nord", "Nord-du-Québec", "Gaspésie-Îles-de-la-Madeleine", "Chaudière-Appalaches", "Centre-du-Québec"];
 const EMAIL_CONSEILLER = 'cmouya@congobourse.org';
-const WA_CONSEILLER = '24384892453';
+const WA_CONSEILLER = '243824892453';
 const QUESTIONS = [
   {id:'age', q:"Avez-vous 18 ans ou plus ?", s:"Aucune limite d'âge supérieure.", c:v=>v==='oui'},
   {id:'nat', q:"Êtes-vous ressortissant(e) d'un pays autre que le Canada et la France ?", s:"Priorité : Francophonie, Asie (Chine, Corée, Inde, Japon), Amériques (Brésil, Colombie, USA, Mexique).", c:v=>v==='oui'},
   {id:'cit', q:"Êtes-vous SANS citoyenneté canadienne, SANS statut de résident permanent et SANS demande de RP en cours ?", s:"Les résidents permanents peuvent être admissibles hors concours.", c:v=>v==='oui'},
   {id:'ext', q:"Résiderez-vous à l'EXTÉRIEUR du Canada du dépôt jusqu'à l'annonce des sélectionnés ?", s:"", c:v=>v==='oui'},
   {id:'adm', q:"Répondez-vous aux conditions d'admission du programme souhaité ?", s:"À vérifier auprès du centre de formation.", c:v=>v==='oui'},
-  {id:'lang', q:"Possédez-vous un niveau de français B2 minimum (4 compétences) — ou un test prévu (résultat au plus tard le 20 nov. 2026) ?", s:"Échelle québécoise : niveau 7+. Tests : TFL, TFI, TEF, TEFAQ, Bright, TCF. Études ≥ 3 ans en français ou diplôme français/belge francophone acceptés.", c:v=>v==='oui'},
+  {id:'lang', q:"Possédez-vous un niveau de français B2 minimum (4 compétences) — ou un test prévu (résultat au plus tard le 20 nov. 2026) — ou avez-vous terminé 3 ans d'études universitaires en langue française ?", s:"⚠️ Si non : vous devrez passer uniquement le test TFL en ligne — frais : 349 CAD (≈ 245 USD).", c:v=>v==='oui'},
   {id:'bourse', q:"N'avez-vous JAMAIS bénéficié d'une bourse du MEQ pour des études d'un niveau égal ou supérieur au Québec ?", s:"Le cumul de bourses durant une même année scolaire n'est pas autorisé.", c:v=>v==='oui'},
   {id:'fraude', q:"Avez-vous toujours soumis des candidatures authentiques (jamais de documents frauduleux) ?", s:"Toute fausse déclaration entraîne un rejet automatique.", c:v=>v==='oui'},
-  {id:'fin', q:"Pouvez-vous déclarer au moins 10 617 CAD (bourse) ou 24 617 CAD (exemption) de capacité financière ?", s:"Montants exigés par IRCC en cas de sélection.", c:v=>v==='oui'},
+  {id:'fin', q:"Pouvez-vous déclarer au moins 10 617 CAD (≈ 7 430 USD) pour la bourse — ou 24 617 CAD (≈ 17 230 USD) pour l'exemption seule — de capacité financière ?", s:"Montants exigés par IRCC en cas de sélection. Taux indicatif : 1 CAD ≈ 0,70 USD.", c:v=>v==='oui'},
 ];
 const DOCS = [
   {id:'d1', t:"Passeport ou carte nationale d'identité", d:"Copie de la page d'identification.", req:true},
@@ -369,7 +357,7 @@ const DOCS = [
   {id:'d6', t:"Prix et distinctions (max 2)", d:"Facultatif, avec preuves.", req:false},
 ];
 const CHK4=["Documentation du Concours lue (site, guide, FAQ)","Admissibilité vérifiée à tous les critères",
- "Capacité financière prouvable (10 617 CAD minimum)","Tous les documents requis préparés",
+ "Capacité financière prouvable (10 617 CAD ≈ 7 430 USD minimum)","Tous les documents requis préparés",
  "Inscription et profil complétés sur la plateforme","Politique de confidentialité lue",
  "Formation, ville et région documentées (options comparées)","Toutes les sections de la candidature complétées",
  "Déclarations et engagements lus et compris","Candidature envoyée avant le 28 oct. 2026, 23 h 59 (HE)",
@@ -409,7 +397,7 @@ const I18N={
   mot:"Motivations et intérêts",par:"Parcours professionnel détaillé",prix:"Prix et distinctions",
   motph:"Pourquoi ce métier ? Ce centre ? Votre projet d'emploi au Québec ?",parph:"Emplois, stages, responsabilités, compétences transférables…",prixph:"Maximum 2 prix, avec preuves à téléverser.",
   langt:"💬 Niveau de langue — option choisie",langhelp:"Test valide : moins de 2 ans, 4 compétences évaluées, B2 minimum pour chacune.",
-  finl:"Montant de la capacité financière déclarée (CAD)",finhelp:"Minimum : 10 617 CAD (bourse) ou 24 617 CAD (exemption seule), exigé par IRCC.",
+  finl:"Montant de la capacité financière déclarée (CAD)",finhelp:"Minimum : 10 617 CAD (≈ 7 430 USD) pour la bourse — 24 617 CAD (≈ 17 230 USD) pour l'exemption seule. Taux indicatif : 1 CAD ≈ 0,70 USD.",
   refhelp:"2 formulaires de référence (personnes différentes), nouvelle version recommandée.",
   cal:"Calendrier clé du concours",cal1:"Dépôt des candidatures sur bourses.boursesqma.com",cal2:"Date limite — résultat du test de langue (si déclaration de passation)",
   cal3:"Évaluation des demandes",cal4:"Annonce — tour 1 (réponse sous 30 jours)",cal5:"Annonce — tour 2 (réponse avant le 31 mars 2027)",cal6:"Démarches d'immigration accompagnées",cal6b:"Dès mars 2027",cal7:"Arrivée au Québec et début de la formation",
@@ -425,7 +413,7 @@ const I18N={
   faqT:"❓ Questions fréquentes",lnkT:"🔗 Liens officiels",lnk1:"Plateforme officielle de dépôt",lnk3:"Foire aux questions officielle",
   thmT:"🌙 Affichage",lngT:"🌍 Langue",nav1:"Éligibilité",nav2:"Dossier",nav3:"Bilan",nav4:"Nouvelles",nav5:"Plus",
   install:"Installer",
-  okT:"Vous êtes éligible au concours !",okP:"Direction la constitution de votre dossier. Financement 2026-2027 : 1 680 000 CAD en bourses (14 000 – 26 600 CAD chacune) + exemption des droits + RAMQ.",
+  okT:"Vous êtes éligible au concours !",okP:"Direction la constitution de votre dossier. Financement 2026-2027 : 1 680 000 CAD en bourses (14 000 – 26 600 CAD ≈ 9 800 – 18 620 USD chacune) + exemption des droits + RAMQ.",
   koT:"Candidature non admissible actuellement",koP:"Le non-respect d'une condition entraîne le rejet. Contactez un conseiller pour explorer les alternatives.",
   dmn:"🧪 Charger un dossier de démonstration",rst:"🔄 Réinitialiser (nouveau candidat)",percout:"Dossier {p} % prêt"},
  en:{brand:"Excellence scholarships · Candidate diagnostic",tag:"Vocational training · Quebec Ministry of Education · 2026-2027 competition",
@@ -530,7 +518,9 @@ quizDiv.addEventListener('click',e=>{
 });
 function evaluer(){
   const rest=QUESTIONS.filter(q=>!reponses[q.id]);
-  const ko=QUESTIONS.filter(q=>reponses[q.id] && !q.c(reponses[q.id]));
+  const ko=QUESTIONS.filter(q=>reponses[q.id] && !q.c(reponses[q.id]) && q.id!=='lang');
+  const warn=reponses.lang==='non'
+    ? `<div class="verdict" style="background:#fff8e6;border:2px solid var(--accent);text-align:left;margin-top:12px"><div class="emoji">⚠️</div><h3 style="color:#b97b0a">Test TFL obligatoire</h3><p style="color:var(--sombre)">Votre niveau de français doit être prouvé, mais cela ne bloque pas votre candidature : vous devrez passer <b>uniquement le test TFL en ligne</b> — frais : <b>349 CAD (≈ 245 USD)</b>. Prévoyez ce montant et le délai (résultat au plus tard le 20 nov. 2026).</p></div>`:'';
   const res=document.getElementById('resultatElig'), btn=document.getElementById('btnGo2');
   if(rest.length){res.classList.add('hidden');btn.classList.add('hidden');return;}
   if(ko.length){
@@ -543,6 +533,7 @@ function evaluer(){
     res.innerHTML=`<div class="emoji">🎉</div><h3>${T('okT')}</h3><p>${T('okP')}</p>`;
     btn.classList.remove('hidden');
   }
+  res.innerHTML+=warn;
   res.classList.remove('hidden');
 }
 /* =================== NAVIGATION =================== */
@@ -619,7 +610,7 @@ function bilan(){
   h+=ligne(T('t1'), elig?'<span class="okcheck">✓</span>':'<span class="manquant">⚠</span>');
   h+=ligne(T('formation'), document.getElementById('fFormation').value||'<span class="manquant">⚠</span>');
   h+=ligne(T('region'), document.getElementById('fRegion').value||'<span class="manquant">⚠</span>');
-  h+=ligne(T('finl'), fin>=10617?'<span class="okcheck">✓</span> '+fin.toLocaleString()+' CAD':'<span class="manquant">⚠</span>');
+  h+=ligne(T('finl'), fin>=10617?'<span class="okcheck">✓</span> '+fin.toLocaleString()+' CAD (≈ '+Math.round(fin*0.70).toLocaleString()+' USD)':'<span class="manquant">⚠</span>');
   h+=`</div><div class="card"><h3>📑 ${T('t3')} (${okR.length}/${req.length})</h3>`;
   DOCS.forEach(d=>{h+=ligne(d.t, docsOk[d.id]?'<span class="okcheck">✓</span>':'<span class="manquant">✗</span>');});
   h+=`</div>`;
@@ -810,8 +801,13 @@ function toggleTheme(){
 }
 /* =================== COUNTDOWN =================== */
 function tick(){
-  const dl=new Date('2026-10-28T23:59:00-04:00'), now=new Date();
-  document.getElementById('cd').textContent=Math.max(0,Math.ceil((dl-now)/86400000));
+  const dl=new Date('2026-10-28T23:59:00-04:00').getTime(), now=Date.now();
+  let diff=Math.max(0,dl-now);
+  const j=Math.floor(diff/86400000); diff%=86400000;
+  const h=String(Math.floor(diff/3600000)).padStart(2,'0'); diff%=3600000;
+  const m=String(Math.floor(diff/60000)).padStart(2,'0');
+  const s=String(Math.floor(diff%60000/1000)).padStart(2,'0');
+  document.getElementById('cd').innerHTML=j+' j <span style="font-size:.85rem;opacity:.9">'+h+':'+m+':'+s+'</span>';
 }
 /* =================== PWA =================== */
 if('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(()=>{});
@@ -839,7 +835,7 @@ document.getElementById('installBtn').onclick=async()=>{if(deferredPrompt){defer
   renderFAQ(); renderProfils(); renderRappels(); renderDemo(); applyLang();
   majBar3(); evaluer();
   wc(document.getElementById('tMotiv'),'wcMotiv'); wc(document.getElementById('tParcours'),'wcParc');
-  goto(1); tick(); setInterval(tick,60000); checkNotifs();
+  goto(1); tick(); setInterval(tick,1000); checkNotifs();
 })();
 </script>
 </body>
